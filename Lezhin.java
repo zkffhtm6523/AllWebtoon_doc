@@ -44,7 +44,7 @@ public class Lezhin {
 
 		huc.setRequestMethod("GET");
 
-		huc.setRequestProperty("x-lz-locale", "ko-KR");
+		huc.setRequestProperty("x-lz-locale", "ko-KR");		//레진은 영문 버젼이 따로 있어서 한글 정보를 추출하려면 헤더에 이 정보를 담아서 보내야 한다.
 
 		huc.connect();
 
