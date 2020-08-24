@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>홈 화면</title>
+    <style>
+        .container {
+            width: 900px; margin: 0 auto;
+        }
+        .container .header {
+            width: 700px; padding: 10px; height: 100px;
+        }
+        .container .header form {
+            float: right;
+        }
+        .container .header #project {
+            float: left; font-size: 1.6em; text-decoration: none;
+            color: green;
+        }
+        .container .header #search {
+            margin-right: 10px; clear: both;
+        }
+        .container .header #login {
+            margin-right: 10px;
+        }
+        .container section {
+            width: 900px;
+        }
+        .box1, .box2, .box3 {
+            height: 200px;
+        }
+        .container section ul {
+            list-style-type: none; height: 100px;
+        }
+        .container section ul li {
+            float: left; margin: 20px; border: 1px solid black;
+            padding: 10px;
+        }
+        #btn_login {
+            text-decoration: none; color: black;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="" id="project">모두의 웹툰<img src="" alt=""></a> 
+            <!-- 사이트 대표 아이콘 홈으로 돌아오는 링크 -->
+            <form action="" method="get" id="signin">
+                <button>회원가입</button>
+                <!-- 회원가입 버튼 -->
+            </form>
+            <form action="/Watcha/login.html" method="post" id="login">
+                <button><a href="/Watcha/login.html" id="btn_login">로그인</a></button>
+                <!-- 로그인 버튼 -->
+            </form>
+            <form action="" method="get">
+                <input type="text" name="search" id="search" placeholder="웹툰, 작가를 검색하세요">
+                <!-- 검색창 -->
+            </form>
+        </div>
+        <section>
+            <div class="box1">
+                <div class="web1">네이버웹툰 추천</div>
+                <ul>
+                    <li>인생존망</li>
+                    <li>신의탑</li>
+                    <li>파이게임</li>
+                    <li>인생존망</li>
+                    <li>신의탑</li>
+                    <li>파이게임</li>
+                </ul>
+            </div>
+            <div class="box2">
+                <div class="web2">카카오페이지 추천</div>
+                <ul>
+                    <li>이태원클라쓰</li>
+                    <li>나혼자만레벨업</li>
+                    <li>?</li>
+                    <li>이태원클라쓰</li>
+                    <li>나혼자만레벨업</li>
+                    <li>?</li>
+                </ul>
+            </div>
+            <div class="box3">
+                <div class="web3">레진코믹스 추천</div>
+                <ul>
+                    <li>레바툰</li>
+                    <li>바나나툰</li>
+                    <li>?</li>
+                    <li>레바툰</li>
+                    <li>바나나툰</li>
+                    <li>?</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <script>
+
+    </script>
+</body>
+</html>
