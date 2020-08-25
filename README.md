@@ -33,3 +33,9 @@ DB테이블 변경
 
 다음 웹툰 크롤링법 URL
 https://www.youtube.com/watch?v=clmYq_1l_Vw
+
+
+
+-----------------------------------
+
+Kakao 작가 한명밖ㅇ 안들어감. 고쳐야함.
