@@ -35,7 +35,7 @@ public class Kakao {
 						String u = "https://api2-page.kakao.com/api/v2/store/day_of_week_top/list?category=10&subcategory=0&page="
 								+ z + "&day=" + day[i] + "&bm=" + bm[j];
 						URL url = new URL(u);
-						int stop=0;
+						
 
 						HttpURLConnection huc = (HttpURLConnection) url.openConnection();
 						huc.connect();
@@ -47,7 +47,8 @@ public class Kakao {
 						for (int b = 0; b < bodyArray.size(); b++) {
 							JSONObject body = (JSONObject) bodyArray.get(b);
 							WebtoonVO c = new WebtoonVO();
-
+							int stop=0;
+							
 							String title = body.get("title").toString();
 							
 							//이미 제목이 같은 객체가 있을 경우 건너뜀.
