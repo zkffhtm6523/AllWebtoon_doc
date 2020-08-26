@@ -42,7 +42,7 @@ public class Naver {
 					}
 				}
 				if(stop==1) {
-					break;
+					continue;
 				}
 				
 				writ = detail.getElementsByClass("wrt_nm").first().text();
