@@ -57,7 +57,7 @@ public class Kakao {
 								}
 							}
 							if(stop==1) {
-								break;
+								continue;
 							}
 							String img = "https://dn-img-page.kakao.com/download/resource?kid="
 									+ body.get("square_thumbnail_url").toString();
