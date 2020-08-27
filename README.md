@@ -42,3 +42,4 @@ https://www.youtube.com/watch?v=clmYq_1l_Vw
 
 8.25일 이슈 : kakao에서 w_artist에 해당하는 값을 가져오지 못함(null 허용 필요 or 변경)
              kakao에서 스토리가 1000자를 초과하는 튜플 1개 발생(해당 컬럼 글제한 변경 or 글제한 크롤링)
+             -> 해결 : 글제한 1500byte로 변경, 크롤링 코드 변경
