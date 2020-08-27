@@ -1,0 +1,173 @@
+/////////기존 디비 다 지우고 이 순서 그대로 만들면 됨! //////////////////
+
+
+
+create table t_platform (            
+	plat_no int primary key,
+  plat_name varchar(50)
+);
+
+
+
+CREATE TABLE t_webtoon(
+	w_no INT auto_increment PRIMARY KEY,
+	w_title VARCHAR(100) NOT NULL unique,
+	w_story VARCHAR(1500) NOT NULL,
+	w_thumbnail VARCHAR(1000) NOT NULL,
+	w_link VARCHAR(1000) NOT null,
+  plat_no INT,           					#####기존 테이블에서 변경 
+  foreign key (plat_no) references t_platform(plat_no) on delete cascade					###변경
+);
+
+
+
+create table t_w_writer(
+	w_no Int,
+  w_writer varchar(100),
+  primary key(w_no,w_writer),
+  foreign key (w_no) references t_webtoon(w_no) on delete cascade
+);
+
+
+
+create table t_gender(						#t_gender 테이블은 성별로 검색해야 하는 경우를 대비해 따로 빼둠. && t_user 테이블에서 성별을 숫자로 입력할 수 있어서 경제적.
+	gender_no int primary key,						
+  gender_name varchar(10)
+);
+
+
+
+create table t_user (
+	u_no int auto_increment primary key,
+	u_id varchar(100) not null unique,
+  u_password varchar(100) not null,
+  u_name varchar(30) not null,
+  u_birth date not null,
+  gender_no int not null,
+  u_email varchar(100) not null unique,
+  u_profile varchar(1000),
+  foreign key (gender_no) references t_gender(gender_no) on delete cascade
+);
+
+
+
+create table t_genre (
+	genre_no int primary key,
+  genre_name varchar(50)
+);
+
+
+
+create table t_w_genre(
+	w_no int,
+  genre_no int,						###변경
+  primary key(w_no,genre_no),            						
+  foreign key (w_no) references t_webtoon(w_no) on delete cascade,
+  foreign key (genre_no) references t_genre(genre_no) on delete cascade			##변경  
+);
+
+
+
+create table t_u_genre(
+	u_no int,
+  genre_no int,
+  primary key(u_no,genre_no),
+  foreign key(u_no) references t_user(u_no) on delete cascade,
+  foreign key(genre_no) references t_genre(genre_no) on delete cascade
+);
+
+
+create table t_comment(
+	w_no int,
+  u_no int,
+  c_com varchar(1000),
+  c_rating float not null,
+  foreign key(w_no) references t_webtoon(w_no) on delete cascade,
+  foreign key(u_no) references t_user(u_no) on delete cascade,
+  primary key(w_no,u_no)
+);
+
+
+
+///////////1. t_gender, t_platform, t_genre 기본 셋팅 
+
+
+insert t_gender values (1,'Female');
+insert t_gender values (2,'Male');
+
+insert into t_platform values (1,'네이버');
+insert into t_platform values (2,'다음');
+insert into t_platform values (3,'카카오');
+insert into t_platform values (4,'레진코믹스');
+insert into t_platform values (5,'코미코');
+
+
+insert into t_genre values (1,'스릴러');
+insert into t_genre values (2,'드라마');
+insert into t_genre values (3,'판타지');
+insert into t_genre values (4,'액션');
+insert into t_genre values (5,'무협');
+insert into t_genre values (6,'순정');
+insert into t_genre values (7,'학원');
+insert into t_genre values (8,'코믹');
+insert into t_genre values (9,'일상');
+insert into t_genre values (10,'스포츠');
+insert into t_genre values (11,'시대극');
+insert into t_genre values (12,'공포');
+insert into t_genre values (13,'SF');
+insert into t_genre values (14,'기타');
+
+
+//////////////2. t_webtoon, t_w_writer 값 저장. 
+
+insert into t_webtoon(w_title,w_story,w_thumbnail,w_link,plat_no) values ('가나다','아아아아아아아','sdfsdfa','adfsgsf',3);
+insert into t_webtoon(w_title,w_story,w_thumbnail,w_link,plat_no) values ('가나다qqq','아아아아아아아qqq','sdfsdfa','adfsgsf',3);
+insert into t_webtoon(w_title,w_story,w_thumbnail,w_link,plat_no) values ('가나다123123','아아542아아아아아','sdfsdfa','adfsgsf',3);
+insert into t_webtoon(w_title,w_story,w_thumbnail,w_link,plat_no) values ('가나다123','아아아1231아아아아','sdfsdfa','adfsgsf',3);
+
+insert into t_w_writer vlaues (1,'정혜선');
+
+
+
+
+//////////////3. t_w_genre 값 저장. (크롤링할때 변환해서 저장될 수 있도록 코드 수정해야 함)
+
+insert into t_w_genre values (1,3);
+insert into t_w_genre values (1,2);
+insert into t_w_genre values (2,5);
+insert into t_w_genre values (3,13);
+
+
+
+/////////////4. t_user 값 저장
+
+
+insert into t_user(u_id,u_password,u_name,u_birth,gender_no,u_email,u_profile) values ('tjs531','hshs3647','정혜선','1992/05/31',1,'tjs531@naver.com','sfsdsgdsdf');
+insert into t_user(u_id,u_password,u_name,u_birth,gender_no,u_email,u_profile) values ('whdudwp','hshs3647','조영제','1995/09/05',2,'whdudwp@naver.com','sfsdsgdsdf');
+insert into t_user(u_id,u_password,u_name,u_birth,gender_no,u_email,u_profile) values ('user1','hshs3647','유저일','1992/05/31',1,'tjs53111@naver.com','sfsdsgdsdf');
+
+
+//////////////5. t_u_genre 값 저장
+
+insert into t_u_genre(u_no, genre_no) values (1,5);
+insert into t_u_genre values (1,1);
+insert into t_u_genre values (2,10);
+insert into t_u_genre values (2,9);
+insert into t_u_genre values (3,4);
+
+
+
+
+////////////6. t_comment
+
+insert into t_comment(w_no,u_no,c_com,c_rating) values (5,1,'good',3.5);
+
+
+
+
+
+
+
+//////////// t_webtoon 값 다 지울때는 auto_increment 초기화 해주기
+
+ALTER TABLE t_webtoon AUTO_INCREMENT = 1;
