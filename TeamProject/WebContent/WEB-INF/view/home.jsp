@@ -10,11 +10,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Cute+Font&family=Noto+Sans+KR&family=Noto+Serif+KR:wght@600&display=swap" rel="stylesheet">
 <style type="text/css">
 .container {width: 100%; margin: 0 auto; font-family: 'Noto Serif KR', serif ;}
-#logo{width: 300px;	cursor: pointer; float: left; padding: 20px;}
-.container .header {width: 1200px; padding: 10px; height: 100px; margin: 0 auto; }
-.container .header #search {margin-right: 10px;}
-.container .header #login {margin-right: 10px;}
-.topMenu{width:400px; padding: 20px; float: right; margin-right: 10px;}
+#logo{width: 250px; cursor: pointer; float: left; height: 100px;}
+.header {width: 1200px; padding: 10px; height: 100px; margin: 0 auto;}
+.header #search {margin-right: 10px;}
+.header #login {margin-right: 10px;}
+.topMenu{width:400px; padding: 20px; float: right; margin-right: 10px; margin-top: 15px;}
 .topMenu #search{padding: 10px;}
 .topMenu button{padding:10px;}
 .container section {margin: 0 auto; clear: both;}
@@ -34,7 +34,7 @@ section img, section span {cursor: pointer;}
 <body>
     <div class="container">
         <div class="header">
-			<img alt="모두의 웹툰" src="/JSP_TeamProject/images/logo.png" id="logo" onclick="goHome()">            
+			<img alt="모두의 웹툰" 	src="https://www.moj.go.kr/sites/moj/images/main/moj-logo.png" id="logo" onclick="goHome()">            
             <!-- 사이트 대표 아이콘 홈으로 돌아오는 링크 -->
 			<div class="topMenu">
 				<input type="text" id="search" placeholder="웹툰, 작가를 검색하세요" onkeydown="moveToResult()">
