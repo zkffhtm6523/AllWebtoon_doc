@@ -9,11 +9,11 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/Users/david/workspace_team/Team_Project/TeamProject/json-20190722.jar"/>
-	<classpathentry kind="lib" path="/Users/david/workspace_team/Team_Project/TeamProject/json-simple-1.1.1.jar"/>
-	<classpathentry kind="lib" path="/Users/david/workspace_team/Team_Project/TeamProject/jsoup-1.11.3.jar"/>
-	<classpathentry kind="lib" path="/Users/david/workspace_team/Team_Project/TeamProject/WebContent/WEB-INF/lib/jstl-1.2.jar"/>
-	<classpathentry kind="lib" path="/Users/david/workspace_team/Team_Project/TeamProject/WebContent/WEB-INF/lib/mysql-connector-java-8.0.20.jar"/>
-	<classpathentry kind="lib" path="/Users/david/workspace_team/Team_Project/TeamProject/WebContent/WEB-INF/lib/taglibs-standard-impl-1.2.5.jar"/>
+	<classpathentry kind="lib" path="C:/spring/workspace_teamproject/TeamProject/json-20190722.jar"/>
+	<classpathentry kind="lib" path="C:/spring/workspace_teamproject/TeamProject/json-simple-1.1.1.jar"/>
+	<classpathentry kind="lib" path="C:/spring/workspace_teamproject/TeamProject/jsoup-1.11.3.jar"/>
+	<classpathentry kind="lib" path="C:/spring/workspace_teamproject/TeamProject/WebContent/WEB-INF/lib/jstl-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/spring/workspace_teamproject/TeamProject/WebContent/WEB-INF/lib/mysql-connector-java-8.0.20.jar"/>
+	<classpathentry kind="lib" path="C:/spring/workspace_teamproject/TeamProject/WebContent/WEB-INF/lib/taglibs-standard-impl-1.2.5.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

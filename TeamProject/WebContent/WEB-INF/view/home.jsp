@@ -67,7 +67,7 @@
                 <div class="web1">네이버웹툰 추천</div>
                 <hr>
                	<c:forEach items="${list }" var="item">
-                	<c:if test="${item.w_platform == 1}">
+                	<c:if test="${item.w_plat_no == 1}">
 		               <div class="naver" onclick="moveToDetail(${item.w_no})"><img src="${item.w_thumbnail}"><br><span>${item.w_title}</span></div>
 	                </c:if>
                </c:forEach>
@@ -76,7 +76,7 @@
             	<div class="web2">카카오페이지 추천</div>
                 <hr>
                	<c:forEach items="${list }" var="item">
-                	<c:if test="${item.w_platform == 3}">
+                	<c:if test="${item.w_plat_no == 3}">
 		               <div class="naver" onclick="moveToDetail(${item.w_no})"><img src="${item.w_thumbnail}"><br><span>${item.w_title}</span></div>
 	                </c:if>
                </c:forEach>
@@ -85,7 +85,7 @@
             	<div class="web3">레진코믹스 추천</div>
                 <hr>
                	<c:forEach items="${list }" var="item">
-                	<c:if test="${item.w_platform == 4}">
+                	<c:if test="${item.w_plat_no == 4}">
 		               <div class="naver" onclick="moveToDetail(${item.w_no})"><img src="${item.w_thumbnail}"><br><span>${item.w_title}</span></div>
 	                </c:if>
                </c:forEach>

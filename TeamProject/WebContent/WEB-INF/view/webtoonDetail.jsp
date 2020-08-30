@@ -154,9 +154,9 @@
 				<img src="${data.w_thumbnail }">
 			</div>
 			<div id="title">${data.w_title }</div>
-			<div id="writer">writer</div>
+			<div id="writer">${data.w_writer }</div>
 			<div id="story">${data.w_story }</div>
-			<div id="platform">${data.w_platform }</div>
+			<div id="platform">${data.w_plat_nm }</div>
 		</div>
 		<!-- 댓글 부분 -->
 		<div class="comment">

@@ -34,7 +34,7 @@ public class WebtoonListDAO {
 					vo.setW_title(rs.getNString("w_title"));
 					vo.setW_story(rs.getNString("w_story"));
 					vo.setW_thumbnail(rs.getNString("w_thumbnail"));
-					vo.setW_platform(rs.getInt("plat_no"));
+					vo.setW_plat_no(rs.getInt("plat_no"));
 					list.add(vo);
 				}
 				return 1;
@@ -88,9 +88,13 @@ public class WebtoonListDAO {
 	// 웹툰 디테일
 		public static WebtoonVO webtoonDetail(int w_no) {
 			WebtoonVO vo = new WebtoonVO();
-			String sql = " SELECT w_thumbnail, w_title, concat(left(w_story, 300),'…') as w_story, plat_no "
-					+ " FROM t_webtoon "
-					+ " WHERE w_no = ? ";
+			String sql = " SELECT A.w_thumbnail, A.w_title, concat(left(A.w_story, 300),'…') as w_story, B.plat_name, group_concat(C.w_writer) as w_writer "
+					+ " FROM t_webtoon A"
+					+ " INNER JOIN t_platform B "
+					+ " ON A.plat_no = B.plat_no "
+					+ " INNER JOIN t_w_writer C "
+					+ " ON A.w_no = C.w_no "
+					+ " WHERE A.w_no = ? ";
 
 			JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
 
@@ -105,7 +109,8 @@ public class WebtoonListDAO {
 						vo.setW_thumbnail(rs.getNString("w_thumbnail"));
 						vo.setW_title(rs.getNString("w_title"));
 						vo.setW_story(rs.getNString("w_story"));
-						vo.setW_platform(rs.getInt("plat_no"));
+						vo.setW_plat_nm(rs.getNString("plat_name"));
+						vo.setW_writer(rs.getNString("w_writer"));
 					}
 					return 1;
 				}
