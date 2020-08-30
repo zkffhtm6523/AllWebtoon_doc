@@ -22,11 +22,12 @@
     #webtoonContainer {width: 500px; border: 1px solid black; margin: 5px; padding: 10px; position: relative;}
     ul {list-style-type: none; clear: both;}
     ul li:nth-child(1) {float: left; padding: 30px; padding-top: 0px;}
+    ul li img:hover {cursor: pointer; width: 210px; height: 210px;}
     ul li img{ border-radius: 10%;}
-    ul li:nth-child(2) {font-weight: bold; font-size: 1.1em;}
+    ul li:nth-child(2) {font-weight: bold; font-size: 1.1em; padding-top: 8px;}
     ul li:nth-child(3) {line-height: 25px;}
-    ul li:not(:first-child){margin-top: 20px;}
-    ul li .list{color: gray; font-weight: gray;}
+    ul li:not(:first-child){margin-top: 15px;}
+    ul li .list{color: gray; font-weight: gray; font-weight: bold;}
     ul .thumbnail{width: 200px; height: 200px;}
 </style>
 </head>
