@@ -8,7 +8,7 @@ public class CrawWebtoonVO {
 	private String title;
 	private ArrayList<String> writer = new ArrayList<String>();
 	private String story;
-	private ArrayList<String> genre = new ArrayList<String>();
+	private ArrayList<Integer> genre = new ArrayList<Integer>();
 	private String link;
 	private int platform;
 	
@@ -48,10 +48,10 @@ public class CrawWebtoonVO {
 	public void setStory(String story) {
 		this.story = story;
 	}
-	public ArrayList<String> getGenre() {
+	public ArrayList<Integer> getGenre() {
 		return genre;
 	}
-	public void setGenre(String genre) {
+	public void setGenre(int genre) {
 		this.genre.add(genre);
 	}
 	public String getLink() {
