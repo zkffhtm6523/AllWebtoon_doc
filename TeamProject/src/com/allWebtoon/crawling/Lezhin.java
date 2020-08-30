@@ -81,10 +81,16 @@ public class Lezhin {
 					webtoonVO.setWri_drawing(au_name);
 				}*/
 				// 장르
-				JSONArray genres = (JSONArray) data.get("tags");
+				JSONArray genres = (JSONArray) data.get("genres");
+				int genre_no=0;
 
 				for(Object g : genres) {
-					webtoonVO.setGenre(g.toString());
+					genre_no = getGenreNo(g.toString());
+					System.out.println("genre_no : " + genre_no);
+					if(genre_no != 0) {
+						webtoonVO.setGenre(genre_no);
+					}
+					
 				}
 				
 			/*	for (int g = 0; g < genres.size(); g++) {
@@ -124,5 +130,52 @@ public class Lezhin {
 		String story = comicinfo.getElementsByTag("p").first().text();
 
 		return story;
+	}
+	
+	
+	
+	public static int getGenreNo(String str) {
+		int result;
+		if(str.equals("romance") || str.equals("로맨스")) {
+			result=1;
+		}else if(str.equals("fantasy") || str.equals("판타지")) {
+			result=8;
+		}else if(str.equals("horror") || str.equals("호러")) {
+			result=13;
+		}else if(str.equals("sports") || str.equals("스포츠")) {
+			result=11;
+		}else if(str.equals("gl") || str.equals("백합")) {
+			result=17;
+		}else if(str.equals("historical") || str.equals("시대극")) {
+			result=7;
+		}else if(str.equals("bl") || str.equals("BL")) {
+			result=16;
+		}else if(str.equals("gore") || str.equals("스릴러")) {
+			result=14;
+		}else if(str.equals("girl") || str.equals("소녀만화")) {
+			result=20;
+		}else if(str.equals("gag") || str.equals("개그")) {
+			result=6;
+		}else if(str.equals("food") || str.equals("음식")) {
+			result=3;
+		}else if(str.equals("drama") || str.equals("드라마")) {
+			result=2;
+		}else if(str.equals("mystery") || str.equals("미스터리")) {
+			result=12;
+		}else if(str.equals("sf") || str.equals("sf")) {
+			result=19;
+		}else if(str.equals("martial") || str.equals("무협")) {
+			result=9;
+		}else if(str.equals("school") || str.equals("학원")) {
+			result=5;
+		}else if(str.equals("action") || str.equals("액션")) {
+			result=9;
+		}else if(str.equals("day") || str.equals("일상")) {
+			result=3;
+		}else {
+			result=0;
+		}
+		
+		return result;
 	}
 }
