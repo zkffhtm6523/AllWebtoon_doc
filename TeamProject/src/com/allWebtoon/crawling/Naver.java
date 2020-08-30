@@ -12,8 +12,8 @@ import org.jsoup.select.Elements;
 public class Naver {
 	public static ArrayList<CrawWebtoonVO> getNaver(ArrayList<CrawWebtoonVO> list) {
 		// 각 url에서 상세정보 리스트로 저장
-		//String url = "https://comic.naver.com/webtoon/weekday.nhn";		//연재중인 웹툰
-		String url = "https://comic.naver.com/webtoon/finish.nhn";			//완결 웹툰  
+		String url = "https://comic.naver.com/webtoon/weekday.nhn";		//연재중인 웹툰
+		//String url = "https://comic.naver.com/webtoon/finish.nhn";			//완결 웹툰  
 		ArrayList<String> hrefList = gethref(url);
 		
 
@@ -44,7 +44,7 @@ public class Naver {
 				}
 				
 				writ = detail.getElementsByClass("wrt_nm").first().text();
-				String[] writers = writ.split("/");
+				String[] writers = writ.split("/ ");
 				
 				for(String w : writers) {
 					webtoonVO.setWriter(w);
@@ -59,7 +59,12 @@ public class Naver {
 				story = detail.getElementsByTag("p").first().text();
 				genre = detail.getElementsByClass("genre").first().text().split(", ");
 				for(String g : genre) {
-					webtoonVO.setGenre(g);
+					int genre_no = getGenreNo(g);
+					System.out.println(g.toString());
+					System.out.println(genre_no);
+					if(genre_no != 0) {
+						webtoonVO.setGenre(genre_no);
+					}
 				}
 				
 				//webtoonVO 값 저장
@@ -95,5 +100,34 @@ public class Naver {
 			}
 		} catch (Exception e) {}
 		return list;
+	}
+	
+	public static int getGenreNo(String str) {
+		switch(str) {
+		case "순정":
+			return 1;
+		case "로맨스":
+			return 1;
+		case "일상":
+			return 3;
+		case "개그":
+			return 6;
+		case "판타지":
+			return 8;
+		case "액션":
+			return 9;
+		case "드라마":
+			return 2;
+		case "감성":
+			return 4;
+		case "스릴러":
+			return 14;
+		case "시대극":
+			return 7;
+		case "스포츠":
+			return 11;
+		default :
+			return 0;
+		}
 	}
 }
