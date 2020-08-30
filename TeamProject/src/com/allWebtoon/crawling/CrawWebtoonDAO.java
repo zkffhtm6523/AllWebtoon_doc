@@ -9,7 +9,7 @@ import com.allWebtoon.db.JdbcUpdateInterface;
 public class CrawWebtoonDAO {
 	public static void insWebtoonList(CrawWebtoonVO param) {
 		String w_sql = " insert into t_webtoon "
-				+ " (w_platform, w_title, w_story, w_thumbnail, w_link) "
+				+ " (plat_no, w_title, w_story, w_thumbnail, w_link) "
 				+ " values "
 				+ " (?, ?, ?, ?, ?) ";
 		JdbcTemplate.executeUpdate(w_sql, new JdbcUpdateInterface() {
@@ -29,7 +29,7 @@ public class CrawWebtoonDAO {
 			inst_writer(param, writer);
 		}
 		
-		for(String genre : param.getGenre()) {
+		for(int genre : param.getGenre()) {
 			inst_genre(param, genre);
 		}
 	}
@@ -48,15 +48,15 @@ public class CrawWebtoonDAO {
 		});
 	}
 	
-	public static void inst_genre(CrawWebtoonVO param, String genre) {
-		String sql = "insert into t_w_genre(w_no, w_genre) value ((select w_no from t_webtoon where w_title=?),?)";
+	public static void inst_genre(CrawWebtoonVO param, int genre) {
+		String sql = "insert into t_w_genre(w_no, genre_no) value ((select w_no from t_webtoon where w_title=?),?)";
 
 		JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
 		
 			@Override
 			public void update(PreparedStatement ps) throws SQLException {
 				ps.setNString(1, param.getTitle());
-				ps.setNString(2, genre);
+				ps.setInt(2, genre);
 				
 			}
 		});
