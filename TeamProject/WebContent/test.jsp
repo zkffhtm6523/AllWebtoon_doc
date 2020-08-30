@@ -11,7 +11,7 @@
 </style>
 </head>
 <body>
-	<h1>ddd</h1>
+	<h1>석규환 테스트</h1>
 	<img src="images/1.jpg">
 </body>
 </html>
