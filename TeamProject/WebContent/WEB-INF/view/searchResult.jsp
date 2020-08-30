@@ -8,11 +8,12 @@
 <title>모두의 웹툰(검색 결과)</title>
 <style type="text/css">
    .container {width: 100%; margin: 0 auto;}
-    .header #logo{width: 300px;   }
+    #logo{
+	     	width: 300px; cursor: pointer; float: left; padding: 20px;
+	     }
     .header {width: 1200px; padding: 10px; height: 50px; margin: 0 auto;}
     .header #search {margin-right: 10px;}
     .header #login {margin-right: 10px;}
-    #logo{float: left; padding: 20px;}
     .topMenu{width:400px; padding: 20px; float: right; margin-right: 10px;}
     .topMenu #search{padding: 10px;}
     .topMenu button{padding:10px;}
@@ -22,9 +23,9 @@
     ul {list-style-type: none; clear: both;}
     ul li:nth-child(1) {float: left; padding: 30px; padding-top: 0px;}
     ul li img{ border-radius: 10%;}
-    ul li:nth-child(2) {font-weight: bold; font-size: 1.1em; padding-top: 10px; }
+    ul li:nth-child(2) {font-weight: bold; font-size: 1.1em;}
     ul li:nth-child(3) {line-height: 25px;}
-    ul li:not(:first-child){margin-top: 17px;}
+    ul li:not(:first-child){margin-top: 20px;}
     ul li .list{color: gray; font-weight: gray;}
     ul .thumbnail{width: 200px; height: 200px;}
 </style>

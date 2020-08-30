@@ -11,9 +11,11 @@
     .container {
             width: 100%; margin: 0 auto;
         }
-        #logo{width: 300px;	}
+        #logo{
+        	width: 300px;	cursor: pointer; float: left; padding: 20px;
+        }
         .container .header {
-            width: 1200px; padding: 10px; height: 100px; margin: 0 auto;	
+            width: 1200px; padding: 10px; height: 100px; margin: 0 auto; 
         }
         .container .header #search {
             margin-right: 10px; 
@@ -24,7 +26,6 @@
         .container section {
             margin: 0 auto; clear: both;
         }
-        #logo{float: left; padding: 20px;}
         .topMenu{width:400px; padding: 20px; float: right; margin-right: 10px;
         }
         .topMenu #search{padding: 10px;}
@@ -45,6 +46,9 @@
         .naver{display: inline-block; width: 200px; text-align: center;
         	padding: 10px;}
         img{width: 180px;}
+        section img, section span {
+        	cursor: pointer;
+        }
     </style>
 </head>
 <body>
@@ -59,13 +63,12 @@
             </div>
         </div>
         <section>
-        	
             <div class="box1">
                 <div class="web1">네이버웹툰 추천</div>
                 <hr>
                	<c:forEach items="${list }" var="item">
                 	<c:if test="${item.w_platform == 1}">
-		               <div class="naver"><img src="${item.w_thumbnail}"><br>${item.w_title}</div>
+		               <div class="naver" onclick="moveToDetail(${item.w_no})"><img src="${item.w_thumbnail}"><br><span>${item.w_title}</span></div>
 	                </c:if>
                </c:forEach>
             </div>
@@ -74,7 +77,7 @@
                 <hr>
                	<c:forEach items="${list }" var="item">
                 	<c:if test="${item.w_platform == 3}">
-		               <div class="naver"><img src="${item.w_thumbnail}"><br>${item.w_title}</div>
+		               <div class="naver" onclick="moveToDetail(${item.w_no})"><img src="${item.w_thumbnail}"><br><span>${item.w_title}</span></div>
 	                </c:if>
                </c:forEach>
             </div>
@@ -83,7 +86,7 @@
                 <hr>
                	<c:forEach items="${list }" var="item">
                 	<c:if test="${item.w_platform == 4}">
-		               <div class="naver"><img src="${item.w_thumbnail}"><br>${item.w_title}</div>
+		               <div class="naver" onclick="moveToDetail(${item.w_no})"><img src="${item.w_thumbnail}"><br><span>${item.w_title}</span></div>
 	                </c:if>
                </c:forEach>
             </div>
@@ -93,6 +96,9 @@
         </footer>
     </div>
     <script>
+    	function moveToDetail(w_no) {
+    		location.href = '/webtoon/detail?w_no='+w_no
+    	}
     	function moveToLogin() {
 			location.href = '/login'
 		}
