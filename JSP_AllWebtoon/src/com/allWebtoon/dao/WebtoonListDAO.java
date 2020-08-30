@@ -79,4 +79,31 @@ public class WebtoonListDAO {
 		return list;
 	}
 	
+	// 웹툰 디테일
+	public static WebtoonVO webtoonDetail(int w_no) {
+		WebtoonVO vo = new WebtoonVO();
+		String sql = " SELECT w_thumbnail, w_title, concat(left(w_story, 300),'…') as w_story, w_platform "
+				+ " FROM t_webtoon "
+				+ " WHERE w_no = ? ";
+		
+		JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
+			
+			@Override
+			public void prepared(PreparedStatement ps) throws SQLException {
+				ps.setInt(1, w_no);
+			}
+			
+			@Override
+			public int executeQuery(ResultSet rs) throws SQLException {
+				if(rs.next()) {
+					vo.setW_thumbnail(rs.getNString("w_thumbnail"));
+					vo.setW_title(rs.getNString("w_title"));
+					vo.setW_story(rs.getNString("w_story"));
+					vo.setW_platform(rs.getInt("w_platform"));
+				}
+				return 1;
+			}
+		});
+		return vo;
+	}
 }
