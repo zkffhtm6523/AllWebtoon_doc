@@ -124,26 +124,7 @@ insert into t_genre values (19,'SF');
 insert into t_genre values (20,'소녀');
 
 
-//////////////2. t_webtoon, t_w_writer 값 저장. 
-
-insert into t_webtoon(w_title,w_story,w_thumbnail,w_link,plat_no) values ('가나다','아아아아아아아','sdfsdfa','adfsgsf',3);
-insert into t_webtoon(w_title,w_story,w_thumbnail,w_link,plat_no) values ('가나다qqq','아아아아아아아qqq','sdfsdfa','adfsgsf',3);
-insert into t_webtoon(w_title,w_story,w_thumbnail,w_link,plat_no) values ('가나다123123','아아542아아아아아','sdfsdfa','adfsgsf',3);
-insert into t_webtoon(w_title,w_story,w_thumbnail,w_link,plat_no) values ('가나다123','아아아1231아아아아','sdfsdfa','adfsgsf',3);
-
-insert into t_w_writer vlaues (1,'정혜선');
-
-
-
-
-//////////////3. t_w_genre 값 저장. (크롤링할때 변환해서 저장될 수 있도록 코드 수정해야 함)
-
-insert into t_w_genre values (1,3);
-insert into t_w_genre values (1,2);
-insert into t_w_genre values (2,5);
-insert into t_w_genre values (3,13);
-
-
+//////////////2. t_webtoon, t_w_writer, t_w_genre 값 크롤링해 저장. 
 
 /////////////4. t_user 값 저장
 
