@@ -88,7 +88,7 @@ public class WebtoonListDAO {
 	// 웹툰 디테일
 		public static WebtoonVO webtoonDetail(int w_no) {
 			WebtoonVO vo = new WebtoonVO();
-			String sql = " SELECT A.w_thumbnail, A.w_title, concat(left(A.w_story, 300),'…') as w_story, B.plat_name, group_concat(C.w_writer) as w_writer "
+			String sql = " SELECT A.w_thumbnail, A.w_title, concat(left(A.w_story, 300),'…') as w_story, B.plat_name, group_concat(C.w_writer separator ', ') as w_writer "
 					+ " FROM t_webtoon A"
 					+ " INNER JOIN t_platform B "
 					+ " ON A.plat_no = B.plat_no "
