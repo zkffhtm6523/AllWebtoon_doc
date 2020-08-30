@@ -12,8 +12,8 @@ import org.jsoup.select.Elements;
 public class Naver {
 	public static ArrayList<CrawWebtoonVO> getNaver(ArrayList<CrawWebtoonVO> list) {
 		// 각 url에서 상세정보 리스트로 저장
-		String url = "https://comic.naver.com/webtoon/weekday.nhn";		//연재중인 웹툰
-		//String url = "https://comic.naver.com/webtoon/finish.nhn";			//완결 웹툰  
+//		String url = "https://comic.naver.com/webtoon/weekday.nhn";		//연재중인 웹툰
+		String url = "https://comic.naver.com/webtoon/finish.nhn";			//완결 웹툰  
 		ArrayList<String> hrefList = gethref(url);
 		
 

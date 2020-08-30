@@ -13,9 +13,9 @@ import com.allWebtoon.vo.WebtoonVO;
 public class WebtoonListDAO {
 	// 홈화면 출력 
 	public static ArrayList<WebtoonVO> selRandomWebtoonList(ArrayList<WebtoonVO> list, int platformNum, int randomLength){
-		String sql = " select w_no, w_title, w_story, w_thumbnail, w_link, w_platform "
+		String sql = " select w_no, w_title, w_story, w_thumbnail, w_link, plat_no "
 					+ " from t_webtoon "
-					+ " where w_platform = ? "
+					+ " where plat_no = ? "
 					+ " order by rand() limit ? ";
 		
 		JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
@@ -34,7 +34,7 @@ public class WebtoonListDAO {
 					vo.setW_title(rs.getNString("w_title"));
 					vo.setW_story(rs.getNString("w_story"));
 					vo.setW_thumbnail(rs.getNString("w_thumbnail"));
-					vo.setW_platform(rs.getInt("w_platform"));
+					vo.setW_platform(rs.getInt("plat_no"));
 					list.add(vo);
 				}
 				return 1;
@@ -88,7 +88,7 @@ public class WebtoonListDAO {
 	// 웹툰 디테일
 		public static WebtoonVO webtoonDetail(int w_no) {
 			WebtoonVO vo = new WebtoonVO();
-			String sql = " SELECT w_thumbnail, w_title, concat(left(w_story, 300),'…') as w_story, w_platform "
+			String sql = " SELECT w_thumbnail, w_title, concat(left(w_story, 300),'…') as w_story, plat_no "
 					+ " FROM t_webtoon "
 					+ " WHERE w_no = ? ";
 
@@ -105,7 +105,7 @@ public class WebtoonListDAO {
 						vo.setW_thumbnail(rs.getNString("w_thumbnail"));
 						vo.setW_title(rs.getNString("w_title"));
 						vo.setW_story(rs.getNString("w_story"));
-						vo.setW_platform(rs.getInt("w_platform"));
+						vo.setW_platform(rs.getInt("plat_no"));
 					}
 					return 1;
 				}
