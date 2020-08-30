@@ -61,19 +61,26 @@ public class Kakao {
 							String img = "https://dn-img-page.kakao.com/download/resource?kid="
 									+ body.get("square_thumbnail_url").toString();
 							String link = "https://page.kakao.com/home?seriesId=" + body.get("series_id");
-							String genre = body.get("sub_category_title").toString().split("만화")[0];
+							String g = body.get("sub_category_title").toString().split("만화")[0];
+							int genre=0;
 
 							// 작가, 스토리는 상세페이지에서
 							JSONObject ect = getStory(link);
 							String story = ect.get("description").toString();
 							String[] writers = ect.get("authorName").toString().split(",");
-
+							
 							c.setTitle(title);
 							for (String w : writers) {
 								c.setWriter(w);
 							}
 							c.setStory(story);
-							c.setGenre(genre);
+							
+							genre=getGenreNo(g);
+							System.out.println(g);
+							System.out.println(genre);
+							if(genre != 0) {
+								c.setGenre(genre);
+							}
 							c.setThumbnail(img);
 							c.setLink(link);
 							c.setPlatform(3);
@@ -117,6 +124,25 @@ public class Kakao {
 		}
 
 		return series;
+	}
+	
+	public static int getGenreNo(String str) {
+		int genre;
+		switch(str) {
+			case "순정":
+				genre = 1; break;
+			case "소년":
+				genre = 10; break;
+			case "드라마":
+				genre = 2; break;
+			case "BL":
+				genre = 16; break;
+			case "액션무협":
+				genre = 9; break;
+			default:
+				genre=0; break;
+		}
+		return genre;
 	}
 
 }
