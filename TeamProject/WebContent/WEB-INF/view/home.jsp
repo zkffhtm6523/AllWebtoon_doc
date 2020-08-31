@@ -9,26 +9,25 @@
 <title>홈 화면</title>
 <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Cute+Font&family=Noto+Sans+KR&family=Noto+Serif+KR:wght@600&display=swap" rel="stylesheet">
 <style type="text/css">
-.container {width: 100%; margin: 0 auto; font-family: 'Noto Serif KR', serif ;}
-#logo{width: 250px; cursor: pointer; float: left; height: 80px;}
-.header {width: 1200px; padding: 10px; height: 100px; margin: 0 auto;}
-.header #search {margin-right: 10px;}
-.header #login {margin-right: 10px;}
-.topMenu{width:400px; padding: 20px; float: right; margin-right: 10px; margin-top: 15px;}
-.topMenu #search{padding: 10px;}
-.topMenu button{padding:10px;}
-.container section {margin: 0 auto; clear: both;}
-section h1{margin-left: 20px;}
-.box1, .box2, .box3 {margin:0 auto; width: 1200px; height : 320px; margin-bottom: 10px;}
-.container section ul {list-style-type: none; height: 100px;}
-.container section ul li {float: left; margin: 20px; border: 1px solid black;padding: 10px;}
-#btn_login {text-decoration: none; color: black;}
-.naver{display: inline-block; width: 200px; text-align: center;padding: 10px;
-	  height: 260px; margin-top: 20px; margin-left: 13px;}
-img{width: 180px; border-radius: 5%;}
-section img, section span {cursor: pointer;}
-.paramValue{width: 180px; height: 50px;}
-
+	.container {width: 100%; margin: 0 auto; font-family: 'Noto Serif KR', serif ;}
+	#logo{width: 250px; cursor: pointer; float: left; height: 80px;}
+	.header {width: 1200px; padding: 10px; height: 100px; margin: 0 auto;}
+	.header #search {margin-right: 10px;}
+	.header #login {margin-right: 10px;}
+	.topMenu{width:400px; padding: 20px; float: right; margin-right: 10px; margin-top: 15px;}
+	.topMenu #search{padding: 10px;}
+	.topMenu button{padding:10px;}
+	.container section {margin: 0 auto; clear: both;}
+	section h1{margin-left: 20px;}
+	.box1, .box2, .box3 {margin:0 auto; width: 1200px; height : 320px; margin-bottom: 10px;}
+	.container section ul {list-style-type: none; height: 100px;}
+	.container section ul li {float: left; margin: 20px; border: 1px solid black;padding: 10px;}
+	#btn_login {text-decoration: none; color: black;}
+	.naver{display: inline-block; width: 200px; text-align: center;padding: 10px;
+		  height: 260px; margin-top: 20px; margin-left: 13px;}
+	img{width: 180px; border-radius: 5%;}
+	section img, section span {cursor: pointer;}
+	.paramValue{width: 180px; height: 50px;}
 </style>
 </head>
 <body>

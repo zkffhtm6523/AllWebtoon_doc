@@ -25,6 +25,7 @@ public class SearchResultSer extends HttpServlet {
 		ArrayList<SearchWebtoonVO> list =  WebtoonListDAO.selSearchList(vo, 10);
 		
 		request.setAttribute("result", list);
+		request.setAttribute("data", vo);
 		
 		ViewResolver.viewForward("searchResult", request, response);
 	}
