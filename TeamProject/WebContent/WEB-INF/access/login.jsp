@@ -19,15 +19,13 @@
         #user_id, #user_pw {
             width: 300px; height: 30px; padding: 10px; margin: 10px;
         }
-        #login_btn, #naver, #facebook, #google {
+        #login_btn, #facebook, #google {
             width: 320px; padding: 10px; margin: 10px; border: none;
             color: white; font-size: 1.1em;
         }
+        #naver{width: 300px; height: 45px;}
         #login_btn {
             background-color: #ccb2e5;
-        }
-        #naver {
-            background-color: #03c75a;
         }
         #facebook {
             background-color: #1877f2;
@@ -50,7 +48,7 @@
                 <button id="login_btn">들어가기</button>
             </form>
             <div><img src="/images/login_logo/kakao_login_medium_wide.png" id="kakao" onclick="goKakao()"></div>
-            <div class="naver"><button id="naver">네이버로 들어가기</button></div>
+            <div><img src="/images/login_logo/naver_login_green_wide.PNG" id="naver" onclick="goNaver('${state}')"></div>
             <div class="facebook"><button id="facebook">페이스북으로 들어가기</button></div>
             <div class="google"><button id="google">구글로 들어가기</button></div>
         </div>
@@ -59,9 +57,12 @@
 <script type="text/javascript">
 	function goKakao() {
 		location.href = 'https://kauth.kakao.com/oauth/authorize'
-	            		+'?client_id=48c16d63af5493c7ae43a1433ec7760f'
-	                    +'&redirect_uri=http://localhost:8089/login'
-	                    +'&response_type=code'
+			    		+'?client_id=48c16d63af5493c7ae43a1433ec7760f'
+			            +'&redirect_uri=http://localhost:8089/login?platNo=1'
+			            +'&response_type=code'
+	}
+	function goNaver(state) {
+		location.href = '/naverAPI'
 	}
 </script>
 </html>
