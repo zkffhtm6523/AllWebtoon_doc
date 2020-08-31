@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,6 +42,7 @@
 <body>
     <div class="container">
         <h1>모두의 웹툰과 함께하기</h1>
+        ${state}
         <div class="login_win">
             <form action="" method="post">
                 <input type="text" id="user_id" placeholder="아이디" autofocus><br>
@@ -62,7 +64,12 @@
 			            +'&response_type=code'
 	}
 	function goNaver(state) {
-		location.href = '/naverAPI'
+		var encoding = encodeURIComponent('http://localhost:8089/naverAPI')
+		location.href = 'https://nid.naver.com/oauth2.0/authorize?response_type=code'
+						+'&client_id=gtb_8Ij5V31vLTCJA7F3'
+						+'&redirect_uri='+encoding
+						+'&state='+state
+						
 	}
 </script>
 </html>

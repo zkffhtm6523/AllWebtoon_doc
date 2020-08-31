@@ -20,6 +20,9 @@ public class LoginSer extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("네이버 테스트");
 		//플랫폼 넘버 구분
+		SecureRandom random = new SecureRandom();
+		String state = new BigInteger(130, random).toString();
+		
 		String platNo = request.getParameter("platNo");
 		if(platNo != null && platNo.equals("1")) {
 			String code = request.getParameter("code");
@@ -29,11 +32,8 @@ public class LoginSer extends HttpServlet {
 		    System.out.println(userInfo);
 		    response.sendRedirect("/home");
 			return;
-		}else if(platNo != null && platNo.equals("2")) {
-			System.out.println("네이버로 넘어옴");
-			response.sendRedirect("/home");
-			return;
 		}
+		request.setAttribute("state", state);
 		ViewResolver.accessForward("login", request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

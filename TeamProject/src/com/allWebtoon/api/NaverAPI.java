@@ -18,6 +18,10 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 @WebServlet("/naverAPI")
 public class NaverAPI extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -74,7 +78,42 @@ public class NaverAPI extends HttpServlet {
 		    } catch (Exception e) {
 		      System.out.println(e);
 		    }
-		response.sendRedirect("/login?platNo=2");
+		if(access_token != null) { // access_token을 잘 받아왔다면
+			try {
+				String apiurl = "https://openapi.naver.com/v1/nid/me";
+				URL url = new URL(apiurl);
+				HttpURLConnection con = (HttpURLConnection)url.openConnection();
+				System.out.println("con : "+con);
+				con.setRequestMethod("POST");
+				con.setRequestProperty("Authorization", "Bearer " + access_token);
+				
+				int responseCode = con.getResponseCode();
+				System.out.println("responseCode : " + responseCode);
+				
+				BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+				
+				String line = "";
+		        String result = "";
+		        
+		        while ((line = br.readLine()) != null) {
+		            result += line;
+		        }
+		        System.out.println("response body : " + result);
+		        
+				JsonParser parser = new JsonParser();
+				JsonElement element = parser.parse(result);
+				
+				JsonObject response1 = element.getAsJsonObject().get("response").getAsJsonObject();
+				 
+				System.out.println("properties : "+response1);
+				
+				
+		    } catch (Exception e) {
+		    	e.printStackTrace();
+		    }
+		}
+		response.sendRedirect("/home");
+		
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
