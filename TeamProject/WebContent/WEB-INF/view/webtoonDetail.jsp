@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -63,37 +64,34 @@
 		<div class="comment">
 			<form action="#" method="post" id="cmtFrm" onsubmit="return chk()">
 				<div class="star-box">
-					<span class="star star_left"></span> <span class="star star_right"></span>
-
-					<span class="star star_left"></span> <span class="star star_right"></span>
-
-					<span class="star star_left"></span> <span class="star star_right"></span>
-
-					<span class="star star_left"></span> <span class="star star_right"></span>
-
-					<span class="star star_left"></span> <span class="star star_right"></span>
+					<span class="star star_left" onclick="score(0.5)"></span> <span class="star star_right" onclick="score(1)"></span>
+					<span class="star star_left" onclick="score(1.5)"></span> <span class="star star_right" onclick="score(2)"></span>
+					<span class="star star_left" onclick="score(2.5)"></span> <span class="star star_right" onclick="score(3)"></span>
+					<span class="star star_left" onclick="score(3.5)"></span> <span class="star star_right" onclick="score(4)"></span>
+					<span class="star star_left" onclick="score(4.5)"></span> <span class="star star_right" onclick="score(5)"></span>
+					<input type="hidden" id="point" value="0.0" required>
 				</div>
-				<div id="comment">
 					<!-- 댓글 남기기 -->
-					<textarea name="cmt" id="cmt" cols="60" rows="3"
-						placeholder="댓글남기기"></textarea>
-				</div>
+				<div id="comment"><textarea name="cmt" id="cmt" cols="60" rows="3" placeholder="댓글남기기"></textarea></div>
 				<!-- 완료 후 보내기 -->
-				<div id="submit">
-					<input type="submit" id="cmt_btn" value="작성완료">
-				</div>
+				<div id="submit"><input type="submit" id="cmt_btn" value="작성완료"></div>
 			</form>
 		</div>
 	</div>
 	<script>
+		function score(star) { // 별점주기
+			console.log('star : ' + star)
+			point.value = parseFloat(star)
+			console.log('point.value : ' + point.value)
+		}
+	
 		function chk() {
-			if (cmtFrm.score.value <= 0) {
+			if (point.value <= 0) { // 별점 체크
 				alert('별점을 입력해 주세요')
-				frm.score.focus()
 				return false
-			} else if (cmtFrm.cmt.value.length <= 0) {
+			} else if (cmtFrm.cmt.value <= 0) { // 댓글 체크
 				alert('댓글을 작성해 주세요')
-				frm.cmt.focus()
+				cmtFrm.cmt.focus()
 				return false
 			}
 		}
