@@ -46,18 +46,29 @@ public class WebtoonListDAO {
 	// 검색 결과
 	public static ArrayList<SearchWebtoonVO> selSearchList(SearchWebtoonVO vo, int randomLength){
 		ArrayList<SearchWebtoonVO> list = new ArrayList<SearchWebtoonVO>();
-		String sql = " SELECT distinct A.w_no, w_title, concat(left(w_story, 200), '...') as w_story, w_thumbnail, D.w_genre, E.w_writer "
-				 + " FROM t_webtoon A "
-				 + " left join t_w_genre B "
-				 + " on A.w_no = B.w_no " 
-				 + " left join t_w_writer C "
-				 + " on A.w_no = C.w_no " 
-				 + " left join (select w_no, group_concat(distinct w_genre separator ', ') as w_genre from t_w_genre group by w_no) D "
-				 + " on A.w_no = D.w_no "
-				 + " left join (select w_no, group_concat(distinct w_writer separator ', ') as w_writer from t_w_writer group by w_no) E "
-				 + " on A.w_no = E.w_no "
-				 + " where A.w_title like ? or B.w_genre like ? or C.w_writer like ? "
-				 + " order by rand() limit ? ";
+		String sql = 
+			" SELECT "
+		  +	"	A.w_no, A.w_title, concat(LEFT(A.w_story, 150), '...') as w_story, A.w_thumbnail, A.w_link, A.plat_no, "
+		  + "	B.genre_no, C.genre_name, CONCAT(LEFT(D.w_writer, 60), '...') as w_writer "
+		  +	" FROM t_webtoon A "
+		  + " LEFT JOIN t_w_genre B "
+		  + " ON A.w_no = B.w_no "
+		  + " INNER JOIN "
+		  + "	(SELECT D.w_no, GROUP_CONCAT(DISTINCT genre_name SEPARATOR ', ') AS genre_name "
+		  + "	FROM "
+		  + "		(SELECT A.w_no, A.w_title, C.genre_name "
+		  + "		FROM t_webtoon A "
+		  + "		INNER JOIN t_w_genre B "
+		  + "		ON A.w_no = B.w_no "
+		  + "		INNER JOIN t_genre C "
+		  + "		ON B.genre_no = C.genre_no) D "
+		  + "	GROUP BY D.w_no) C "
+		  + " ON A.w_no = C.w_no "
+		  + " INNER JOIN " 
+		  + "	(select w_no, group_concat(distinct w_writer separator ', ') as w_writer from t_w_writer group by w_no) D "
+		  + " ON A.w_no = D.w_no "
+		  + " where A.w_title LIKE ? or C.genre_name LIKE ? or D.w_writer LIKE ? "
+		  + " order BY RAND() limit ? ";
 
 		JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
 			@Override
@@ -76,8 +87,9 @@ public class WebtoonListDAO {
 					param.setW_title(rs.getNString("w_title"));
 					param.setW_story(rs.getNString("w_story"));
 					param.setW_thumbnail(rs.getNString("w_thumbnail"));
-					param.setW_genre(rs.getNString("w_genre"));
+					param.setW_genre(rs.getNString("genre_name"));
 					param.setW_writer(rs.getNString("w_writer"));
+					param.setW_link(rs.getNString("w_link"));
 					list.add(param);
 				}
 				return 1;
