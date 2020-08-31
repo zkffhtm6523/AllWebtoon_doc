@@ -29,7 +29,42 @@ public class LoginSer extends HttpServlet {
 		ViewResolver.accessForward("login", request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		String user_id = request.getParameter("user_id");
+		String user_pw = request.getParameter("user_pw");
+		String encrypt_pw = MyUtils.encryptString(user_pw);
+		
+		UserVO param = new UserVO();
+		
+		param.setUser_id(user_id);
+		param.setUser_password(encrypt_pw);
+		
+		int result = UserDAO.login(param);
+
+
+		if(result != 1) {		//에러처리
+			String msg = null;
+			switch(result) {
+				case 0:
+				msg = "에러가 발생했습니다";
+				break;
+				case 2:
+				msg = "비밀번호가 틀렸습니다.";
+				break;
+				case 3:
+				msg = "아이디가 없음";
+				break;
+			}
+			request.setAttribute("msg",msg);
+			request.setAttribute("user_id", user_id);
+			doGet(request,response);
+			return;
+		}
+		
+		HttpSession hs = request.getSession();
+		hs.setAttribute(Const.LOGIN_USER,param);
+		
+		System.out.println("로그인성공");
+		response.sendRedirect("/");
 	}
 
 }
