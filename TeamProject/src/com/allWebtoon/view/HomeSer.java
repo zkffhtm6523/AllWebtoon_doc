@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.allWebtoon.dao.WebtoonListDAO;
 import com.allWebtoon.util.ViewResolver;
 import com.allWebtoon.vo.WebtoonVO;
-@WebServlet("/")
+@WebServlet("/home")
 public class HomeSer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+		System.out.println("ddd");
 		ArrayList<WebtoonVO> list = new ArrayList<WebtoonVO>();
 		
 		list = WebtoonListDAO.selRandomWebtoonList(list, 1, 5);

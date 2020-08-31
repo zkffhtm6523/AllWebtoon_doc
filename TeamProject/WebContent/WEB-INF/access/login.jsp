@@ -19,7 +19,7 @@
         #user_id, #user_pw {
             width: 300px; height: 30px; padding: 10px; margin: 10px;
         }
-        #login_btn, #kakao, #naver, #facebook {
+        #login_btn, #kakao, #naver, #facebook, #google {
             width: 320px; padding: 10px; margin: 10px; border: none;
             color: white; font-size: 1.1em;
         }
@@ -34,6 +34,9 @@
         }
         #facebook {
             background-color: #1877f2;
+        }
+        #google {
+            background-color: #ccc;
         }
         a {
             text-decoration: none; color: white; 
@@ -52,6 +55,7 @@
             <div class="kakao"><button id="kakao">카카오로 들어가기</button></div>
             <div class="naver"><button id="naver">네이버로 들어가기</button></div>
             <div class="facebook"><button id="facebook">페이스북으로 들어가기</button></div>
+            <div class="google"><button id="google">구글로 들어가기</button></div>
         </div>
     </div>
 </body>
