@@ -43,7 +43,7 @@
         </div>
         <section>
             <div class="box1">
-                <div class="web1"><h1>네이버웹툰 추천ㅋㅋㅋ</h1></div>
+                <div class="web1"><h1>네이버웹툰 추천ㅋㅋㅋㅋㅋㅋㅋ</h1></div>
                 <hr>
                	<c:forEach items="${list }" var="item">
                 	<c:if test="${item.w_plat_no == 1}">
