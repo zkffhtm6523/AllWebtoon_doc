@@ -16,6 +16,36 @@ public class JoinSer extends HttpServlet {
 		ViewResolver.accessForward("join", request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String user_id = request.getParameter("id");
+		String user_pw = request.getParameter("pw");
+		String encrypt_pw = MyUtils.encryptString(user_pw);			//비밀번호 암호화
+		String nm = request.getParameter("name");
+		String email = request.getParameter("email");
+		String birth = request.getParameter("birth");
+		String gender = request.getParameter("gender");
+		
+		UserVO param = new UserVO();
+		param.setUser_id(user_id);
+		param.setUser_password(encrypt_pw);
+		param.setName(nm);
+		param.setEmail(email);
+		param.setBirth(birth);
+		param.setGender(gender);
+		
+		int result= UserDAO.insUser(param);
+		
+		
+		if(result != 1) {
+			//'에러가 발생하였습니다. 관리자에게 문의 ㄱ'
+			request.setAttribute("msg", "에러가 발생했습니다. 관리자에게 문의 ㄱ");
+			request.setAttribute("data", param);
+			//ViewResolver.forward("user/join", request, response);
+			doGet(request, response);
+			return;
+		}
+		
+		response.sendRedirect("/login");
+		
+		
 	}
-
 }
