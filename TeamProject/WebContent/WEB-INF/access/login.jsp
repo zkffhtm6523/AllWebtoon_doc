@@ -42,7 +42,6 @@
 <body>
     <div class="container">
         <h1>모두의 웹툰과 함께하기</h1>
-        ${state}
         <div class="login_win">
             <form action="" method="post">
                 <input type="text" id="user_id" placeholder="아이디" autofocus><br>
