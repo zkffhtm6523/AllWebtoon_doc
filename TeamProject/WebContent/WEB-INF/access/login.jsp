@@ -42,12 +42,12 @@
 <body>
     <div class="container">
         <h1>모두의 웹툰과 함께하기</h1>
-        ${state}
+        <div class="err">${msg }</div>
         <div class="login_win">
-            <form action="" method="post">
-                <input type="text" id="user_id" placeholder="아이디" autofocus><br>
-                <input type="password" id="user_pw" placeholder="비밀번호"><br>
-                <button id="login_btn">들어가기</button>
+            <form action="/login" method="post">
+                <input type="text" id="user_id" name="user_id" placeholder="아이디" value="${user_id}" autofocus><br>
+                <input type="password" id="user_pw" name="user_pw" placeholder="비밀번호"><br>
+                <input id="login_btn" type="submit" value="로그인">
             </form>
             <div><img src="/images/login_logo/kakao_login_medium_wide.png" id="kakao" onclick="goKakao()"></div>
             <div><img src="/images/login_logo/naver_login_green_wide.PNG" id="naver" onclick="goNaver('${state}')"></div>
