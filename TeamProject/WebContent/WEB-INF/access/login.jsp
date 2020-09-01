@@ -42,10 +42,7 @@
 <body>
     <div class="container">
         <h1>모두의 웹툰과 함께하기</h1>
-<<<<<<< HEAD
-=======
         <div class="err">${msg }</div>
->>>>>>> branch 'master' of https://github.com/zkffhtm6523/Team_Project.git
         <div class="login_win">
             <form action="/login" method="post">
                 <input type="text" id="user_id" name="user_id" placeholder="아이디" value="${user_id}" autofocus><br>
