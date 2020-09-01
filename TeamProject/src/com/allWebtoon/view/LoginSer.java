@@ -18,8 +18,7 @@ import com.allWebtoon.util.ViewResolver;
 public class LoginSer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("네이버 테스트");
-		//플랫폼 넘버 구분
+		//플랫폼 넘버 구분(네이버 난수생성용, 로그인 창 들어갈 시 미리 난수값 받아서 attr에 넣어줌)
 		SecureRandom random = new SecureRandom();
 		String state = new BigInteger(130, random).toString();
 		
