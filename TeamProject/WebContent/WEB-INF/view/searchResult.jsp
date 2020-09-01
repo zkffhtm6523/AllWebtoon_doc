@@ -17,6 +17,7 @@
 	.topMenu #search{padding: 10px;}
 	.topMenu button{padding:10px;}
     .box1 .web1 h2{margin-left: 20px;}
+    img{width: 180px; border-radius: 5%;}
     .container section {width: 1200px; padding: 10px; margin: 0 auto; clear: both;}
     h2{margin-top: 0px;}
     #webtoonContainer {width: 500px; border: 1px solid black; margin: 5px; padding: 10px; position: relative;}
