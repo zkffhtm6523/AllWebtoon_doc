@@ -7,16 +7,14 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>홈 화면</title>
-<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Cute+Font&family=Noto+Sans+KR&family=Noto+Serif+KR:wght@600&display=swap" rel="stylesheet">
 <style type="text/css">
-	.container {width: 100%; margin: 0 auto; font-family: 'Noto Serif KR', serif ;}
-	#logo{width: 250px; cursor: pointer; float: left; height: 80px;}
-	.header {width: 1200px; padding: 10px; height: 100px; margin: 0 auto;}
-	.header #search {margin-right: 10px;}
-	.header #login {margin-right: 10px;}
-	.topMenu{width:400px; padding: 20px; float: right; margin-right: 10px; margin-top: 15px;}
-	.topMenu #search{padding: 10px;}
-	.topMenu button{padding:10px;}
+	 @font-face {font-family: 'GmarketSansMedium';src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansMedium.woff') format('woff');font-weight: normal;font-style: normal;}
+    .container {width: 100%; margin: 0 auto; font-family: 'GmarketSansMedium', serif ;}
+	.header {width: 1440px; padding: 10px; height: 100px; margin: 60px auto;}
+	.header #logo{width: 250px; cursor: pointer; float: left; height: 80px; margin-left: 80px;}
+	.header #search {margin: 20px 10px 10px 320px;width: 476px;height: 41px;background: #FFFFFF;padding-left: 30px;border: 1px solid #4FA2C7;box-sizing: border-box;border-radius: 10px;}
+	.header #login {margin-right: 10px;background: #4FA2C7;border-radius: 10px;width: 98px;height: 41px;color: white; font-family: 'GmarketSansMedium', serif ;border: none;}
+    .header #signin { background: #4FA2C7;border-radius: 10px;width: 98px;height: 41px;color: white; font-family: 'GmarketSansMedium',serif;border: none;}
 	.container section {margin: 0 auto; clear: both;}
 	section h1{margin-left: 20px;}
 	.box1, .box2, .box3 {margin:0 auto; width: 1200px; height : 320px; margin-bottom: 10px;}
@@ -37,13 +35,13 @@
             <!-- 사이트 대표 아이콘 홈으로 돌아오는 링크 -->
 			<div class="topMenu">
 				<input type="text" id="search" placeholder="웹툰, 작가를 검색하세요" onkeydown="moveToResult()">
-	            <button id="btn_login" onclick="moveToLogin()">로그인</button>
+	            <button id="login" onclick="moveToLogin()">로그인</button>
 	            <button id="signin" onclick="moveToJoin()">회원가입</button>
             </div>
         </div>
         <section>
             <div class="box1">
-                <div class="web1"><h1>네이버웹툰 추천ㅋㅋㅋㅋㅋㅋㅋ</h1></div>
+                <div class="web1"><h1>네이버웹툰 추천</h1></div>
                 <hr>
                	<c:forEach items="${list }" var="item">
                 	<c:if test="${item.w_plat_no == 1}">
