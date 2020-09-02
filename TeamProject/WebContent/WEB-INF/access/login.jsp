@@ -67,7 +67,14 @@
 						+'&state='+state
 	}
 	function goGoogle() {
-		location.href = 'https://www.facebook.com/v8.0/dialog/oauth?app_id=3176381649143544&auth_type=&cbt=1598956304306&channel_url=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df1d719d6fdb3374%26domain%3Dlocalhost%26origin%3Dhttp%253A%252F%252Flocalhost%253A8089%252Ff3c702153dc04e8%26relation%3Dopener&client_id=3176381649143544&display=popup&domain=localhost&e2e=%7B%7D&fallback_redirect_uri=http%3A%2F%2Flocalhost%3A8089%2Flogin&force_confirmation=false&id=f389c80587ca9c&locale=ko_KR&logger_id=f9420852-3cda-4bc5-a7a2-143e915b5dbc&origin=1&plugin_prepare=true&redirect_uri=https%3A%2F%2Fstaticxx.facebook.com%2Fx%2Fconnect%2Fxd_arbiter%2F%3Fversion%3D46%23cb%3Df120091c7f99444%26domain%3Dlocalhost%26origin%3Dhttp%253A%252F%252Flocalhost%253A8089%252Ff3c702153dc04e8%26relation%3Dopener.parent%26frame%3Df389c80587ca9c&ref=LoginButton&response_type=signed_request%2Ctoken%2Cgraph_domain&scope=&sdk=joey&size=%7B%22width%22%3A600%2C%22height%22%3A679%7D&url=dialog%2Foauth&version=v8.0'
+		location.href = 'https://accounts.google.com/o/oauth2/v2/auth?'
+			 + 'scope=https%3A//www.googleapis.com/auth/contacts'
+			 + '&access_type=offline'
+			 + '&include_granted_scopes=true'
+			 + '&response_type=code'
+			 + '&state=state_parameter_passthrough_value'
+			 + '&redirect_uri=http://localhost:8089/googleAPI'
+			 + '&client_id=659641044041-d8d9d26ubldu5veldv2g3cqaqedv6htq.apps.googleusercontent.com'
 	}
 </script>
 </html>

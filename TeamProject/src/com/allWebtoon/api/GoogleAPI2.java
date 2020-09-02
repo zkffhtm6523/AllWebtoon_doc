@@ -1,6 +1,4 @@
 package com.allWebtoon.api;
-
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -9,61 +7,46 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
-import com.allWebtoon.vo.UserVO;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-public class KakaoAPI {
-	public static String getAccessToken(String authorize_code) {
+import java.io.BufferedReader;
+
+public class GoogleAPI2 {
+	public static String getAccessToken(String code) {
 		String access_Token = "";
 		String refresh_Token = "";
-		String reqURL = "https://kauth.kakao.com/oauth/token";
-
+		String reqURL = "https://accounts.google.com/o/oauth2/v2/auth"; 
+		
 		try {
 			URL url = new URL(reqURL);
 			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-
 			// POST 요청을 위해 기본값이 false인 setDoOutput을 true로
 			conn.setRequestMethod("POST");
 			conn.setDoOutput(true);
+			
 
 			// POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
 			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
 			StringBuilder sb = new StringBuilder();
-			sb.append("grant_type=authorization_code");
-			sb.append("&client_id=48c16d63af5493c7ae43a1433ec7760f");
-			sb.append("&redirect_uri=http://localhost:8089/login?platNo=1");
-			sb.append("&code=" + authorize_code);
+			sb.append("&response_type=token");
+			sb.append("&scope = https % 3A // www.googleapis.com / auth / drive.metadata.readonly");
+			sb.append("&client_id=659641044041-d8d9d26ubldu5veldv2g3cqaqedv6htq.apps.googleusercontent.com");
+			sb.append("&client_secret=LxGdpTGyFqWFj3AT1167xbvF");
+			sb.append("&state=state_parameter_passthrough_value");
+			sb.append("&redirect_uri=http://localhost:8089/login?platNo=3");
+			sb.append("&code=" + code);
+			sb.append("&grant_type=authorization_code");
             bw.write(sb.toString());
             bw.flush();
-            
+            System.out.println("결과 200전");
             //    결과 코드가 200이라면 성공
             int responseCode = conn.getResponseCode();
             System.out.println("responseCode : " + responseCode);
  
-            //    요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line = "";
-            String result = "";
             
-            while ((line = br.readLine()) != null) {
-                result += line;
-            }
-            System.out.println("response body : " + result);
             
-            //    Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result);
-            
-            access_Token = element.getAsJsonObject().get("access_token").getAsString();
-            refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
-            
-            System.out.println("access_token : " + access_Token);
-            System.out.println("refresh_token : " + refresh_Token);
-            
-            br.close();
-            bw.close();
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
@@ -71,8 +54,8 @@ public class KakaoAPI {
         
         return access_Token;
     }
-	public static UserVO getUserInfo (String access_Token) {
-	    UserVO param = new UserVO();
+	public static HashMap<String, Object> getUserInfo (String access_Token) {
+	    
 	    //    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
 	    HashMap<String, Object> userInfo = new HashMap<>();
 	    String reqURL = "https://kapi.kakao.com/v2/user/me";
@@ -102,31 +85,23 @@ public class KakaoAPI {
 	        
 	        JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
 	        JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-	        String user_id = element.getAsJsonObject().get("id").getAsString();
 	        String nickname = properties.getAsJsonObject().get("nickname").getAsString();
 	        String birthday = kakao_account.getAsJsonObject().get("birthday").getAsString();
 	        String gender = kakao_account.getAsJsonObject().get("gender").getAsString();
 	        String email = kakao_account.getAsJsonObject().get("email").getAsString();
 	        String profile_image = properties.getAsJsonObject().get("profile_image").getAsString();
 	        String thumbnail_image = properties.getAsJsonObject().get("thumbnail_image").getAsString();
-	        System.out.println("objUser_id : "+user_id);
-	        
-	        param.setName(nickname);
-	        birthday = "1990/"+birthday.substring(0,2)+"/"+birthday.substring(2, birthday.length());
-	        param.setBirth(birthday);
-	        gender = (gender == "female" ? "1" : "2");
-	        param.setGender(gender);
-	        param.setEmail(email);
-	        param.setProfile(profile_image);
-	        param.setUser_id(user_id);
-	        param.setUser_password(user_id);
+	        userInfo.put("nickname", nickname);
+	        userInfo.put("email", email);
+	        userInfo.put("profile_image", profile_image);
+	        userInfo.put("thumbnail_image", thumbnail_image);
+	        userInfo.put("birthday", birthday);
+	        userInfo.put("gender", gender);
 	        
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
 	    
-	    return param;
+	    return userInfo;
 	}
-
-
 }

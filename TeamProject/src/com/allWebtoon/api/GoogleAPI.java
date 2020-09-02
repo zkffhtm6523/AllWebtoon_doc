@@ -1,127 +1,128 @@
 package com.allWebtoon.api;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.HashMap;
+import java.net.URLEncoder;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-public class GoogleAPI {
-	public static String getAccessToken(String code) {
-		String access_Token = "";
-		String refresh_Token = "";
-		String reqURL = "https://accounts.google.com/o/oauth2/v2/auth"; 
-		
-		try {
-			URL url = new URL(reqURL);
-			System.out.println(url);
-			HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-			System.out.println(conn);
-			// POST 요청을 위해 기본값이 false인 setDoOutput을 true로
-			conn.setRequestMethod("POST");
-			conn.setDoOutput(true);
+/**
+ * Servlet implementation class GoogleAPI
+ */
+@WebServlet("/googleAPI")
+public class GoogleAPI extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+    	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    		String clientId = "659641044041-d8d9d26ubldu5veldv2g3cqaqedv6htq.apps.googleusercontent.com";
+    		String clientSecret = "LxGdpTGyFqWFj3AT1167xbvF"; 
+    		String code = request.getParameter("code");
+    		String redirectURI = "http://localhost:8089/googleAPI";
+    				
+    		StringBuffer apiURL = new StringBuffer();
+    		apiURL.append("https://accounts.google.com/o/oauth2/v2/auth");
+    		apiURL.append("&client_id=" + clientId);
+    		apiURL.append("&client_secret=" + clientSecret);
+    		apiURL.append("&redirect_uri=" + redirectURI);
+    		apiURL.append("&code=" + code);
+    		apiURL.append("&grant_type=authorization_code");
+    		String access_token = "";
+    		String refresh_token = ""; //나중에 이용합시다
+    				
+    		try { 
+    			  URL url = new URL(apiURL.toString());
+    		      HttpURLConnection con = (HttpURLConnection)url.openConnection();
+    		      con.setRequestMethod("POST");
+    		      int responseCode = con.getResponseCode();
+    		      BufferedReader br;
+    		      System.out.println("responseCode : "+responseCode);
+    		      
+    		      if(responseCode==200) {
+    		    	System.out.println("정상 호출");
+    		        br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+    		      } else {  // 에러 발생
+    		    	System.out.println("에러 호출");
+    		        br = new BufferedReader(new InputStreamReader(con.getErrorStream()));
+    		      }
+    		      
+    		      String inputLine;
+    		      StringBuffer res = new StringBuffer();
+    		      
+    		      while ((inputLine = br.readLine()) != null) {
+    		        res.append(inputLine);
+    		        System.out.println("inputLine : "+inputLine);
+    		      }
+    		      br.close();
+    		      if(responseCode==200) {
+    	    	  	System.out.println("res.toString() : "+res.toString());
+    	    		JSONParser parsing = new JSONParser();
+    	    		Object obj = parsing.parse(res.toString());
+    	    		JSONObject jsonObj = (JSONObject)obj;
+    	    			        
+    	    		access_token = (String)jsonObj.get("access_token");
+    	    		refresh_token = (String)jsonObj.get("refresh_token");
+    		      }
+    		    } catch (Exception e) {
+    		      System.out.println(e);
+    		    }
+    		if(access_token != null) { // access_token을 잘 받아왔다면
+    			try {
+    				String apiurl = "https://openapi.naver.com/v1/nid/me";
+    				URL url = new URL(apiurl);
+    				HttpURLConnection con = (HttpURLConnection)url.openConnection();
+    				System.out.println("con : "+con);
+    				con.setRequestMethod("POST");
+    				con.setRequestProperty("Authorization", "Bearer " + access_token);
+    				
+    				int responseCode = con.getResponseCode();
+    				System.out.println("responseCode : " + responseCode);
+    				
+    				BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
+    				
+    				String line = "";
+    		        String result = "";
+    		        
+    		        while ((line = br.readLine()) != null) {
+    		            result += line;
+    		        }
+    		        System.out.println("response body : " + result);
+    		        
+    				JsonParser parser = new JsonParser();
+    				JsonElement element = parser.parse(result);
+    				
+    				JsonObject response1 = element.getAsJsonObject().get("response").getAsJsonObject();
+    				 
+    				System.out.println("properties : "+response1);
+    				
+    				
+    		    } catch (Exception e) {
+    		    	e.printStackTrace();
+    		    }
+    		}
+    		response.sendRedirect("/home");
+    		
 
-			// POST 요청에 필요로 요구하는 파라미터 스트림을 통해 전송
-			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-			StringBuilder sb = new StringBuilder();
-			sb.append("&response_type=token");
-			sb.append("&scope = https % 3A // www.googleapis.com / auth / drive.metadata.readonly");
-			sb.append("&client_id=659641044041-d8d9d26ubldu5veldv2g3cqaqedv6htq.apps.googleusercontent.com");
-			sb.append("&state=state_parameter_passthrough_value");
-			sb.append("&redirect_uri=http://localhost:8089/login?platNo=3");
-			sb.append("&code=" + code);
-            bw.write(sb.toString());
-            bw.flush();
-            System.out.println("결과 200전");
-            //    결과 코드가 200이라면 성공
-            int responseCode = conn.getResponseCode();
-            System.out.println("responseCode : " + responseCode);
- 
-            //    요청을 통해 얻은 JSON타입의 Response 메세지 읽어오기
-            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-            String line = "";
-            String result = "";
-            
-            while ((line = br.readLine()) != null) {
-                result += line;
-            }
-            System.out.println("response body : " + result);
-            
-            //    Gson 라이브러리에 포함된 클래스로 JSON파싱 객체 생성
-            System.out.println("gson 전");
-            JsonParser parser = new JsonParser();
-            JsonElement element = parser.parse(result);
-            System.out.println("gson 후");
-            access_Token = element.getAsJsonObject().get("access_token").getAsString();
-            refresh_Token = element.getAsJsonObject().get("refresh_token").getAsString();
-            
-            System.out.println("access_token : " + access_Token);
-            System.out.println("refresh_token : " + refresh_Token);
-            
-            br.close();
-            bw.close();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } 
-        
-        return access_Token;
-    }
-	public static HashMap<String, Object> getUserInfo (String access_Token) {
-	    
-	    //    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
-	    HashMap<String, Object> userInfo = new HashMap<>();
-	    String reqURL = "https://kapi.kakao.com/v2/user/me";
-	    try {
-	        URL url = new URL(reqURL);
-	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-	        conn.setRequestMethod("POST");
-	        
-	        //    요청에 필요한 Header에 포함될 내용
-	        conn.setRequestProperty("Authorization", "Bearer " + access_Token);
-	        
-	        int responseCode = conn.getResponseCode();
-	        System.out.println("responseCode : " + responseCode);
-	        
-	        BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-	        
-	        String line = "";
-	        String result = "";
-	        
-	        while ((line = br.readLine()) != null) {
-	            result += line;
-	        }
-	        System.out.println("response body : " + result);
-	        
-	        JsonParser parser = new JsonParser();
-	        JsonElement element = parser.parse(result);
-	        
-	        JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
-	        JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
-	        String nickname = properties.getAsJsonObject().get("nickname").getAsString();
-	        String birthday = kakao_account.getAsJsonObject().get("birthday").getAsString();
-	        String gender = kakao_account.getAsJsonObject().get("gender").getAsString();
-	        String email = kakao_account.getAsJsonObject().get("email").getAsString();
-	        String profile_image = properties.getAsJsonObject().get("profile_image").getAsString();
-	        String thumbnail_image = properties.getAsJsonObject().get("thumbnail_image").getAsString();
-	        userInfo.put("nickname", nickname);
-	        userInfo.put("email", email);
-	        userInfo.put("profile_image", profile_image);
-	        userInfo.put("thumbnail_image", thumbnail_image);
-	        userInfo.put("birthday", birthday);
-	        userInfo.put("gender", gender);
-	        
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-	    
-	    return userInfo;
 	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doGet(request, response);
+	}
+
 }

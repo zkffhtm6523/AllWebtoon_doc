@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.allWebtoon.api.GoogleAPI2;
 import com.allWebtoon.api.KakaoAPI;
 import com.allWebtoon.dao.UserDAO;
 import com.allWebtoon.util.Const;
@@ -23,25 +24,46 @@ import com.allWebtoon.vo.UserVO;
 public class LoginSer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		//플랫폼 넘버 구분(네이버 난수생성용, 로그인 창 들어갈 시 미리 난수값 받아서 attr에 넣어줌)
-		SecureRandom random = new SecureRandom();
-		String state = new BigInteger(130, random).toString();
-		
+		//플랫폼 넘버 구분
 		String platNo = request.getParameter("platNo");
-		System.out.println("platNo : "+platNo);
+		System.out.println(platNo);
+		//네이버 : 난수 발생용
+		if(platNo == null) {
+			System.out.println("네이버");
+			SecureRandom random = new SecureRandom();
+			String state = new BigInteger(130, random).toString();
+			request.setAttribute("state", state);
+		}
+		//카카오 로그인 로직
 		if(platNo != null && platNo.equals("1")) {
-			String code = request.getParameter("code");
-			String access_token = KakaoAPI.getAccessToken(code);
-			HashMap<String, Object> userInfo = KakaoAPI.getUserInfo(access_token);
-		    System.out.println("userInfo(HashMap<String, Object> : ");
-		    System.out.println(userInfo);
-		    response.sendRedirect("/home");
-			return;
-		}else if(platNo != null && platNo.equals("2")) {
-			response.sendRedirect("/home");
+			String access_token = KakaoAPI.getAccessToken(request.getParameter("code"));
+			UserVO userInfo = KakaoAPI.getUserInfo(access_token);
+			int result = UserDAO.selKakaoUser(userInfo);
+			if(result != 1) {		//에러처리
+				String msg = null;
+				switch(result) {
+					case 0:
+					msg = "에러가 발생했습니다";
+					break;
+					case 2:
+					msg = "비밀번호가 틀렸습니다.";
+					break;
+					case 3:
+					msg = "아이디가 없음";
+					break;
+				}
+				request.setAttribute("msg",msg);
+				request.setAttribute("user_id", userInfo.getName());
+				doGet(request,response);
+				return;
+			}
+			HttpSession hs = request.getSession();
+			hs.setAttribute(Const.LOGIN_USER,userInfo);
+			
+			System.out.println("로그인성공");
+			response.sendRedirect("/");
 			return;
 		}
-		request.setAttribute("state", state);
 		ViewResolver.accessForward("login", request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
