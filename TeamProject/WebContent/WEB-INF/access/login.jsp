@@ -4,23 +4,38 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>로그인</title>
-<style>
-	.container {width: 600px; margin: 30px auto; border: 1px solid black;}
-	h1 {text-align: center; margin-top: 40px;}
-	.login_win {text-align: center; padding: 20px; margin: 10px;}
-	#user_id, #user_pw {width: 300px; height: 30px; padding: 10px; margin: 10px;}
-	#login_btn{
-	    width: 260px; height:60px; padding: 10px; margin: 10px; border: none;
-	    color: white; font-size: 1.1em; border-radius: 12px;}
-	#login_btn {background-color: #ccb2e5;}
-	a {text-decoration: none; color: white;}
-	#kakao{width: 260px; height: 60px;}
-</style>
+	<script async defer crossorigin="anonymous" src="https://connect.facebook.net/ko_KR/sdk.js#xfbml=1&version=v8.0&appId=3176381649143544&autoLogAppEvents=1" nonce="JrytjmFN"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <style>
+        .container {
+            width: 600px; margin: 30px auto; border: 1px solid black;
+        }
+        h1 {
+            text-align: center; margin-top: 40px;
+        }
+        .login_win {
+            text-align: center; padding: 20px; margin: 10px;
+        }
+        #user_id, #user_pw {
+            width: 300px; height: 30px; padding: 10px; margin: 10px;
+        }
+        #login_btn, #google {
+            width: 320px; padding: 10px; margin: 10px; border: none;
+            color: white; font-size: 1.1em;
+        }
+        #naver{width: 204px; height: 40px;}
+        .fb{width: 300px; height: 45px;}
+        #login_btn {background-color: #ccb2e5;}
+        #google {background-color: #ccc;}
+        a {
+            text-decoration: none; color: white; 
+        }
+    </style>
 </head>
 <body>
+	<div id="fb-root"></div>
     <div class="container">
         <h1>모두의 웹툰과 함께하기</h1>
         <div class="err">${msg }</div>
@@ -31,11 +46,11 @@
                 <input id="login_btn" type="submit" value="로그인">
             </form>
             <div><img src="/images/login_logo/kakao_login_medium_wide.png" id="kakao" onclick="goKakao()"></div>
-            <div><img src="/images/login_logo/naver.PNG" id="naver" onclick="goNaver('${state}')"></div>
-            <!-- <div><img src="/images/login_logo/facebook_login.PNG" id="facebook" onclick=""></div> -->
-            <div><img src="/images/login_logo/google.PNG" id="google" onclick="goGoogle()"></div>
+            <div><img src="/images/login_logo/naver_login_green_wide.PNG" id="naver" onclick="goNaver('${state}')"></div>
+            <div class="google"><button id="google" onclick="goGoogle()">구글로 들어가기</button></div>
         </div>
     </div>
+		
 </body>
 <script type="text/javascript">
 	function goKakao() {
@@ -51,22 +66,15 @@
 						+'&redirect_uri='+encoding
 						+'&state='+state
 	}
-	function goFacebook() {
-		location.href = 'https://www.facebook.com/dialog/oauth?'
-						+'client_id=3176381649143544'
-						+'&redirect_uri=https://127.0.0.1:8089/login?platNo=2'
-						+'&scope=ads_management'
-						
-	}
 	function goGoogle() {
 		location.href = 'https://accounts.google.com/o/oauth2/v2/auth?'
-						 + 'scope=https%3A//www.googleapis.com/auth/drive.metadata.readonly'
-						 + '&access_type=offline'
-						 + '&include_granted_scopes=true'
-						 + '&response_type=code'
-						 + '&state=state_parameter_passthrough_value'
-						 + '&redirect_uri=http://localhost:8089/login?platNo=3'
-						 + '&client_id=659641044041-d8d9d26ubldu5veldv2g3cqaqedv6htq.apps.googleusercontent.com'
+			 + 'scope=https%3A//www.googleapis.com/auth/contacts'
+			 + '&access_type=offline'
+			 + '&include_granted_scopes=true'
+			 + '&response_type=code'
+			 + '&state=state_parameter_passthrough_value'
+			 + '&redirect_uri=http://localhost:8089/googleAPI'
+			 + '&client_id=659641044041-d8d9d26ubldu5veldv2g3cqaqedv6htq.apps.googleusercontent.com'
 	}
 </script>
 </html>

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.allWebtoon.api.GoogleAPI;
+import com.allWebtoon.api.GoogleAPI2;
 import com.allWebtoon.api.KakaoAPI;
 import com.allWebtoon.dao.UserDAO;
 import com.allWebtoon.util.Const;
@@ -36,21 +36,34 @@ public class LoginSer extends HttpServlet {
 		}
 		//카카오 로그인 로직
 		if(platNo != null && platNo.equals("1")) {
-			System.out.println("카카오");
-			String code = request.getParameter("code");
-			String access_token = KakaoAPI.getAccessToken(code);
-			HashMap<String, Object> userInfo = KakaoAPI.getUserInfo(access_token);
-		    System.out.println("userInfo(HashMap<String, Object> : ");
-		    System.out.println(userInfo);
-		    response.sendRedirect("/home");
+			String access_token = KakaoAPI.getAccessToken(request.getParameter("code"));
+			UserVO userInfo = KakaoAPI.getUserInfo(access_token);
+			int result = UserDAO.selKakaoUser(userInfo);
+			if(result != 1) {		//에러처리
+				String msg = null;
+				switch(result) {
+					case 0:
+					msg = "에러가 발생했습니다";
+					break;
+					case 2:
+					msg = "비밀번호가 틀렸습니다.";
+					break;
+					case 3:
+					msg = "아이디가 없음";
+					break;
+				}
+				request.setAttribute("msg",msg);
+				request.setAttribute("user_id", userInfo.getName());
+				doGet(request,response);
+				return;
+			}
+			HttpSession hs = request.getSession();
+			hs.setAttribute(Const.LOGIN_USER,userInfo);
+			
+			System.out.println("로그인성공");
+			response.sendRedirect("/");
 			return;
-		}if(platNo != null && platNo.equals("3")) {
-			System.out.println("갓구글");
-			String code = request.getParameter("code");
-			String access_token = GoogleAPI.getAccessToken(code);
-			System.out.println("code : "+code);
 		}
-		
 		ViewResolver.accessForward("login", request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
