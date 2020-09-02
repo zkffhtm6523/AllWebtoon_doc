@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.allWebtoon.api.GoogleAPI;
 import com.allWebtoon.api.KakaoAPI;
 import com.allWebtoon.dao.UserDAO;
 import com.allWebtoon.util.Const;
@@ -23,13 +24,19 @@ import com.allWebtoon.vo.UserVO;
 public class LoginSer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("네이버 테스트");
 		//플랫폼 넘버 구분
-		SecureRandom random = new SecureRandom();
-		String state = new BigInteger(130, random).toString();
-		
 		String platNo = request.getParameter("platNo");
+		System.out.println(platNo);
+		//네이버 : 난수 발생용
+		if(platNo == null) {
+			System.out.println("네이버");
+			SecureRandom random = new SecureRandom();
+			String state = new BigInteger(130, random).toString();
+			request.setAttribute("state", state);
+		}
+		//카카오 로그인 로직
 		if(platNo != null && platNo.equals("1")) {
+			System.out.println("카카오");
 			String code = request.getParameter("code");
 			String access_token = KakaoAPI.getAccessToken(code);
 			HashMap<String, Object> userInfo = KakaoAPI.getUserInfo(access_token);
@@ -37,8 +44,13 @@ public class LoginSer extends HttpServlet {
 		    System.out.println(userInfo);
 		    response.sendRedirect("/home");
 			return;
+		}if(platNo != null && platNo.equals("3")) {
+			System.out.println("갓구글");
+			String code = request.getParameter("code");
+			String access_token = GoogleAPI.getAccessToken(code);
+			System.out.println("code : "+code);
 		}
-		request.setAttribute("state", state);
+		
 		ViewResolver.accessForward("login", request, response);
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
