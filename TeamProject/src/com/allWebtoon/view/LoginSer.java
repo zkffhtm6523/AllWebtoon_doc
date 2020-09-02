@@ -10,9 +10,14 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.allWebtoon.api.KakaoAPI;
+import com.allWebtoon.dao.UserDAO;
+import com.allWebtoon.util.Const;
+import com.allWebtoon.util.MyUtils;
 import com.allWebtoon.util.ViewResolver;
+import com.allWebtoon.vo.UserVO;
 
 @WebServlet("/login")
 public class LoginSer extends HttpServlet {
@@ -23,6 +28,7 @@ public class LoginSer extends HttpServlet {
 		String state = new BigInteger(130, random).toString();
 		
 		String platNo = request.getParameter("platNo");
+		System.out.println("platNo : "+platNo);
 		if(platNo != null && platNo.equals("1")) {
 			String code = request.getParameter("code");
 			String access_token = KakaoAPI.getAccessToken(code);
@@ -30,6 +36,9 @@ public class LoginSer extends HttpServlet {
 		    System.out.println("userInfo(HashMap<String, Object> : ");
 		    System.out.println(userInfo);
 		    response.sendRedirect("/home");
+			return;
+		}else if(platNo != null && platNo.equals("2")) {
+			response.sendRedirect("/home");
 			return;
 		}
 		request.setAttribute("state", state);
