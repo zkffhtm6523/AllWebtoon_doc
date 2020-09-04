@@ -9,6 +9,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
 
+import com.allWebtoon.vo.UserVO;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -70,8 +71,8 @@ public class KakaoAPI {
         
         return access_Token;
     }
-	public static HashMap<String, Object> getUserInfo (String access_Token) {
-	    
+	public static UserVO getUserInfo (String access_Token) {
+	    UserVO param = new UserVO();
 	    //    요청하는 클라이언트마다 가진 정보가 다를 수 있기에 HashMap타입으로 선언
 	    HashMap<String, Object> userInfo = new HashMap<>();
 	    String reqURL = "https://kapi.kakao.com/v2/user/me";
@@ -101,24 +102,30 @@ public class KakaoAPI {
 	        
 	        JsonObject properties = element.getAsJsonObject().get("properties").getAsJsonObject();
 	        JsonObject kakao_account = element.getAsJsonObject().get("kakao_account").getAsJsonObject();
+	        String user_id = element.getAsJsonObject().get("id").getAsString();
 	        String nickname = properties.getAsJsonObject().get("nickname").getAsString();
 	        String birthday = kakao_account.getAsJsonObject().get("birthday").getAsString();
 	        String gender = kakao_account.getAsJsonObject().get("gender").getAsString();
 	        String email = kakao_account.getAsJsonObject().get("email").getAsString();
 	        String profile_image = properties.getAsJsonObject().get("profile_image").getAsString();
 	        String thumbnail_image = properties.getAsJsonObject().get("thumbnail_image").getAsString();
-	        userInfo.put("nickname", nickname);
-	        userInfo.put("email", email);
-	        userInfo.put("profile_image", profile_image);
-	        userInfo.put("thumbnail_image", thumbnail_image);
-	        userInfo.put("birthday", birthday);
-	        userInfo.put("gender", gender);
+	        System.out.println("objUser_id : "+user_id);
+	        
+	        param.setName(nickname);
+	        birthday = "1990/"+birthday.substring(0,2)+"/"+birthday.substring(2, birthday.length());
+	        param.setBirth(birthday);
+	        gender = (gender == "female" ? "1" : "2");
+	        param.setGender(gender);
+	        param.setEmail(email);
+	        param.setProfile(profile_image);
+	        param.setUser_id(user_id);
+	        param.setUser_password(user_id);
 	        
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
 	    
-	    return userInfo;
+	    return param;
 	}
 
 
