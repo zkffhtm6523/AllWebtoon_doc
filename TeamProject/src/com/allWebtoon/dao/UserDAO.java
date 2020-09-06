@@ -13,7 +13,9 @@ public class UserDAO {
 	
 	public static int insUser(UserVO param) {
 		
-		String sql = "INSERT INTO t_user(u_id, u_password, u_name, u_birth, gender_no, u_email) VALUES (?,?,?,?,?,?)";
+		String sql = "INSERT INTO t_user"
+				+ " (u_id, u_password, u_name, u_birth, gender_no, u_email, u_profile) "
+				+ " VALUES (?,?,?,?,?,?,?) ";
 		
 		return JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
 			@Override
@@ -28,12 +30,16 @@ public class UserDAO {
 					ps.setInt(5, 2);
 				}
 				ps.setNString(6, param.getEmail());
+				if(param.getProfile() == null) {
+					ps.setNString(7, "");
+				}else {
+					ps.setNString(7, param.getProfile());
+				}
 			}
 
 		});
 	}
-	public static int selKakaoUser(UserVO param) {
-		
+	public static int selKakaoUser(UserVO param) {		
 		String sql = "SELECT u_no, u_password, u_name FROM t_user WHERE u_id=? ";
 		
 		return JdbcTemplate.executeQuery(sql, new JdbcSelectInterface() {
@@ -60,7 +66,7 @@ public class UserDAO {
 						return 2;
 					}
 				}else {							//레코드가 없음. (아이디 없음)
-					return insUser(param);						
+					return insUser(param);					
 				}
 				
 			}	
@@ -102,4 +108,15 @@ public class UserDAO {
 				}	
 			});
 		}
+	public static void insU_genre(UserVO param,String str) {
+		String sql = "INSERT INTO t_u_genre(u_no, genre_no) VALUES ((select u_no from t_user where u_id=?), (select genre_no from t_genre where genre_name=?))";
+		
+		JdbcTemplate.executeUpdate(sql, new JdbcUpdateInterface() {
+			@Override
+			public void update(PreparedStatement ps) throws SQLException {
+				ps.setNString(1,param.getUser_id());
+				ps.setNString(2,str);
+			}
+		});
+	}
 }

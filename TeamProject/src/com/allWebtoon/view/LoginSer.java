@@ -3,7 +3,6 @@ package com.allWebtoon.view;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -73,6 +72,7 @@ public class LoginSer extends HttpServlet {
 		
 		UserVO param = new UserVO();
 		
+		
 		param.setUser_id(user_id);
 		param.setUser_password(encrypt_pw);
 		
@@ -103,6 +103,7 @@ public class LoginSer extends HttpServlet {
 		
 		System.out.println("로그인성공");
 		response.sendRedirect("/");
+		
 	}
 
 }

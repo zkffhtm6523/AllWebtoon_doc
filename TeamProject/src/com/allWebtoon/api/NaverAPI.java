@@ -18,6 +18,10 @@ import javax.servlet.http.HttpSession;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import com.allWebtoon.dao.UserDAO;
+import com.allWebtoon.util.Const;
+import com.allWebtoon.util.ViewResolver;
+import com.allWebtoon.vo.UserVO;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -48,7 +52,6 @@ public class NaverAPI extends HttpServlet {
 		      con.setRequestMethod("GET");
 		      int responseCode = con.getResponseCode();
 		      BufferedReader br;
-		      System.out.println("responseCode : "+responseCode);
 		      
 		      if(responseCode==200) {
 		    	System.out.println("정상 호출");
@@ -63,11 +66,9 @@ public class NaverAPI extends HttpServlet {
 		      
 		      while ((inputLine = br.readLine()) != null) {
 		        res.append(inputLine);
-		        System.out.println("inputLine : "+inputLine);
 		      }
 		      br.close();
 		      if(responseCode==200) {
-	    	  	System.out.println("res.toString() : "+res.toString());
 	    		JSONParser parsing = new JSONParser();
 	    		Object obj = parsing.parse(res.toString());
 	    		JSONObject jsonObj = (JSONObject)obj;
@@ -83,12 +84,10 @@ public class NaverAPI extends HttpServlet {
 				String apiurl = "https://openapi.naver.com/v1/nid/me";
 				URL url = new URL(apiurl);
 				HttpURLConnection con = (HttpURLConnection)url.openConnection();
-				System.out.println("con : "+con);
 				con.setRequestMethod("POST");
 				con.setRequestProperty("Authorization", "Bearer " + access_token);
 				
 				int responseCode = con.getResponseCode();
-				System.out.println("responseCode : " + responseCode);
 				
 				BufferedReader br = new BufferedReader(new InputStreamReader(con.getInputStream()));
 				
@@ -98,20 +97,52 @@ public class NaverAPI extends HttpServlet {
 		        while ((line = br.readLine()) != null) {
 		            result += line;
 		        }
-		        System.out.println("response body : " + result);
 		        
 				JsonParser parser = new JsonParser();
 				JsonElement element = parser.parse(result);
 				
-				JsonObject response1 = element.getAsJsonObject().get("response").getAsJsonObject();
-				 
-				System.out.println("properties : "+response1);
+				JsonObject property = element.getAsJsonObject().get("response").getAsJsonObject();
+				System.out.println("properties : "+property);
+				System.out.println(1);
+				String user_id = property.getAsJsonObject().get("id").getAsString();
+				System.out.println(2);
+				String profile_img = property.getAsJsonObject().get("profile_image").getAsString();
+				System.out.println(3);
+				String gender = property.getAsJsonObject().get("gender").getAsString();
+				String email = property.getAsJsonObject().get("email").getAsString();
+				String name = property.getAsJsonObject().get("name").getAsString();
+				String birthday = property.getAsJsonObject().get("birthday").getAsString();
 				
+				UserVO userInfo = new UserVO();
+				userInfo.setUser_id(user_id);
+				userInfo.setUser_password(user_id);
+				userInfo.setName(name);
+				userInfo.setBirth("1990/"+birthday.replace("-", "/"));
+				userInfo.setProfile(profile_img);
+				userInfo.setEmail(email);
+				userInfo.setGender(gender.equals("M") ? "2" : "1");
+				
+				int db_result = UserDAO.selNaverUser(userInfo);
+				
+				if(db_result == 0) {
+					UserDAO.insUser(userInfo);
+					response.sendRedirect("/choGenre?user_id="+userInfo.getUser_id());
+					return;
+				}else if(db_result == 2) {
+					String msg = "비밀번호가 틀렸습니다.";
+					request.setAttribute("msg",msg);
+					request.setAttribute("user_id", userInfo.getName());
+					ViewResolver.accessForward("login", request, response);
+					return;
+				}
+				
+				HttpSession hs = request.getSession();
+				hs.setAttribute(Const.LOGIN_USER,userInfo);
 				
 		    } catch (Exception e) {
 		    	e.printStackTrace();
 		    }
-		}
+		}	
 		response.sendRedirect("/home");
 		
 	}
